@@ -19,11 +19,21 @@ func Str2time(str string) (time.Time, error) {
 }
 
 // IsWorktime 함수는 현재 업무시간인지 체크하는 함수이다.
-func IsWorktime() bool {
-	h := time.Now().Hour()
-	// 회사 업무시간은 10:00~19:00 입니다.
-	if 10 <= h && h <= 18 {
-		return true
+func Worktime(t time.Time) bool {
+	// 토요일, 일요일이면 업무시간이 아니다.
+	if t.Weekday() == 0 || t.Weekday() == 6 {
+		return false
 	}
-	return false
+	h := t.Hour()
+	// 회사 업무시간은 10:00~19:00 입니다.
+	switch h {
+	case 10, 11, 12: // 오전업무시간
+		return true
+	case 13: // 점심시간
+		return false
+	case 14, 15, 16, 17, 18: // 오후업무시간
+		return true
+	default:
+		return false
+	}
 }
