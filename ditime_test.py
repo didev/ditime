@@ -20,6 +20,11 @@ class Test_ditime(unittest.TestCase):
 		self.assertEqual(ToFullTime("2017-08-08"), ("2017-08-08T19:00:00+09:00",None))
 		self.assertEqual(ToFullTime("2017-08-08T23:54:23+09:00"), ("2017-08-08T23:54:23+09:00",None))
 		self.assertEqual(ToFullTime("a"), ("a","약속한 시간포멧 형태가 아닙니다."))
+	def test_ToExcelTime(self):
+		self.assertEqual(ToExcelTime("0808"), ("08/08",None))
+		self.assertEqual(ToExcelTime("2017-08-08"), ("08/08",None))
+		self.assertEqual(ToExcelTime("2017-08-08T23:54:23+09:00"), ("08/08",None))
+		self.assertEqual(ToExcelTime("a"), ("a","약속한 시간포멧 형태가 아닙니다."))
 
 if __name__ == "__main__":
 	unittest.main()
