@@ -53,7 +53,7 @@ def ToExcelTime(t):
 	if re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$', t):
 		return t[5:10].replace("-","/"), None
 	if re.search('\d{4}-\d{2}-\d{2}', t):
-		return t[5:7]+"/"+t[8:10], None
+		return t[5:10].replace("-","/"), None
 	return t, "약속한 시간포멧 형태가 아닙니다."
 
 if __name__ == "__main__":
