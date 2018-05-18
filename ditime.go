@@ -42,7 +42,7 @@ func Worktime(t time.Time) bool {
 }
 
 //이 함수는 날짜를 입력받아 CSI의 시간형식으로 변경하고 시간이 잘못 입력 되었다면 err를 반환한다.
-func csiTime(t string) (string, error) {
+func CsiTime(t string) (string, error) {
 	MatchShortTime := regexp.MustCompile(`^\d{4}$`)                                                                            // 1019
 	MatchNormalTime := regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
 	MatchFullTime := regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
