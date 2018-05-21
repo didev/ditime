@@ -2,8 +2,8 @@ package ditime
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
-	"strings"
 	"time"
 )
 
