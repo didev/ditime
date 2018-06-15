@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+var regexpShortTime = regexp.MustCompile(`^\d{4}$`)                                                                            // 1019
+var regexpNormalTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
+var regexpFullTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
+
 // csi, dilog처럼 국제서비스를 기준으로 제작되는 툴에서 사용하는 시간포멧
 func Now() string {
 	return time.Now().Format(time.RFC3339)
@@ -41,33 +45,42 @@ func Worktime(t time.Time) bool {
 	}
 }
 
-//이 함수는 날짜를 입력받아 CSI의 시간형식으로 변경하고 시간이 잘못 입력 되었다면 err를 반환한다.
-func CsiTime(t string) (string, error) {
-	MatchShortTime := regexp.MustCompile(`^\d{4}$`)                                                                            // 1019
-	MatchNormalTime := regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
-	MatchFullTime := regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
-	ts := ""
-	// 입력받은 날짜를 "2018-05-02T19:00:00+09:00" 와 같은 시간형식으로 변경
-	if MatchFullTime.MatchString(t) {
-		ts = t
-	} else if MatchNormalTime.MatchString(t) {
-		ts = fmt.Sprintf("%sT%02d:%02d:%02d%s", t, time.Now().Hour(), time.Now().Minute(), time.Now().Second(), time.Now().Format(time.RFC3339)[19:])
-	} else if MatchShortTime.MatchString(t) {
-		t1 := fmt.Sprintf("%04d-%s-%s", time.Now().Year(), t[0:2], t[2:])
-		if !MatchNormalTime.MatchString(t1) {
-			return "", errors.New("올바른 날짜가 아닙니다!!")
+// ToFullTime함수는 시간을 받아서 FullTime(RFC3339)으로 변환한다.
+func ToFullTime(t string) (string, error) {
+	// 10,19,현재시를 상황에 맞게 추가하는 기능 넣기
+	location, err := time.LoadLocation("Asia/Seoul")
+	if err != nil {
+		return t, err
+	}
+	if regexpShortTime.MatchString(t) {
+		m, err := strconv.Atoi(t[0:2])
+		if err != nil {
+			return t, err
 		}
-		ts = fmt.Sprintf("%sT%02d:%02d:%02d%s", t1, time.Now().Hour(), time.Now().Minute(), time.Now().Second(), time.Now().Format(time.RFC3339)[19:])
+		d, err := strconv.Atoi(t[2:])
+		if err != nil {
+			return t, err
+		}
+		t := time.Date(time.Now.Year(), m, d, 19, 0, 0, 0, location)
+		return t.Format(time.RFC3339)
+	} else if regexpNormalTime.MatchString(t) {
+		y, err := strconv.Atoi(t[0:4])
+		if err != nil {
+			return t, err
+		}
+		m, err := strconv.Atoi(t[5:7])
+		if err != nil {
+			return t, err
+		}
+		d, err := strconv.Atoi(t[8:])
+		if err != nil {
+			return t, err
+		}
+		t := time.Date(y, m, d, 19, 0, 0, 0, location)
+		return t.Format(time.RFC3339)
+	} else if regexpFullTime.MatchString(t) {
+		return t, nil
 	} else {
 		return "", errors.New("입력한 날짜형식이 잘못 되었습니다.")
-
 	}
-	// 날짜형식이 올바른지 한번더 체크하기 위해 사용.
-	// 아래의 time.Parse는 "ex) 2018-05-02 19:00:00 +0900 KST" 형식을 반환하지만
-	// CSI에서 ex)"2018-05-02T19:00:00+09:00" 형식을 사용하기 때문에 값은 _ 처리하고 err만 체크한다.
-	_, err := time.Parse(time.RFC3339, ts)
-	if err != nil {
-		return "", err
-	}
-	return ts, nil
 }
