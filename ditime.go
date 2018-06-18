@@ -119,6 +119,10 @@ func ToFullTime(mode, t string) (string, error) {
 			t := time.Date(y, time.Month(m), d, hour, min, sec, nsec, time.Local)
 			return t.Format(time.RFC3339), nil
 		default:
+			_, err := time.Parse(time.RFC3339, t)
+			if err != nil {
+				return t, err
+			}
 			return t, nil
 		}
 	} else {
