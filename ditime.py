@@ -9,7 +9,7 @@ def ToShortTime(t):
 	2017-10-25T16:21:47+09:00 또는 2017-10-25 형태의 날짜를 1025로 바꾸어준다.
 	"""
 	if t == "":
-		return t, "시간이 빈 문자열입니다."
+		return t, None # 시간을 빈공백으로 두고 싶을 때가 존재한다.
 	if re.search('\d{4}$',t):
 		return t, None
 	if re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$', t):
@@ -23,7 +23,7 @@ def ToNormalTime(t):
 	1025 또는 2017-10-25T16:21:47+09:00 형태의 날짜를 2017-10-25로 바꾸어준다.
 	"""
 	if t == "":
-		return t, "시간이 빈 문자열입니다."
+		return t, None # 시간을 빈공백으로 두고 싶을 때가 존재한다.
 	if re.search('\d{4}-\d{2}-\d{2}$', t):
 		return t, None
 	if re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$', t):
@@ -37,7 +37,7 @@ def ToFullTime(t):
 	1025 또는 2017-10-25 형태의 날짜를 2017-10-25T19:00:00+09:00 형태로 바꾸어준다.
 	"""
 	if t == "":
-		return t, "시간이 빈 문자열입니다."
+		return t, None # 시간을 빈공백으로 두고 싶을 때가 존재한다.
 	if re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$', t):
 		return t, None
 	if re.search('\d{4}$',t):
@@ -55,7 +55,7 @@ def ToExcelTime(t):
 	"2017-07-25T16:21:47+09:00" 또는 "2017-07-25", "0725" 형태의 날짜를 "07/25"로 바꾸어준다.
 	"""
 	if t == "":
-		return t, "시간이 빈 문자열입니다."
+		return t, None # 시간을 빈공백으로 두고 싶을 때가 존재한다.
 	if re.search('^\d{4}$',t):
 		return t[0:2]+"/"+t[2:], None
 	if re.search('^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$', t):
