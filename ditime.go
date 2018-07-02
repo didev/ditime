@@ -49,6 +49,9 @@ func Worktime(t time.Time) bool {
 // ToFullTime함수는 모드와 시간문자를 입력받아서 FullTime(RFC3339)으로 변환한다.
 // 모드는 start, end, current 값을 설정할 수 있다. 각각 출근,퇴근,현재시간으로 FullTime값을 바꿀 수 있다.
 func ToFullTime(mode, t string) (string, error) {
+	if t == "" {
+		return "", nil // 빈문자열이 들어는 것은 시간을 제거하는 것과 같다.
+	}
 	var hour, min, sec, nsec int
 	switch mode {
 	case "start":
