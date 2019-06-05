@@ -1,7 +1,7 @@
-# DITIME
+# ditime
 
-회사의 특수성때문에 발생하는 시간관련 라이브러리이다.
+![travisCI](https://secure.travis-ci.org/didev/ditime.png)
 
-#### 기본정보
-- 개발일시 : '17.12.5
-- 관리부서 : 파이프라인팀
+디지털아이디어에서 사용하는 시간관련 Go 라이브러리이다.
+
+### License: BSD 3-Clause License

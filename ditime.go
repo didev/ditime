@@ -12,7 +12,7 @@ var regexpExcelTime = regexp.MustCompile(`^\d{2}/\d{2}$`)                       
 var regexpNormalTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
 var regexpFullTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
 
-// Now 합수는 디지털아이디어에서 사용하는 서비스의 현재 시간을 RFC3339 포멧으로 반환한다.
+// Now 함수는 디지털아이디어에서 사용하는 서비스의 현재 시간을 RFC3339 포멧으로 반환한다.
 func Now() string {
 	return time.Now().Format(time.RFC3339)
 }
