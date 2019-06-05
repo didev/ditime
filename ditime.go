@@ -12,12 +12,12 @@ var regexpExcelTime = regexp.MustCompile(`^\d{2}/\d{2}$`)                       
 var regexpNormalTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
 var regexpFullTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
 
-// csi, dilog처럼 국제서비스를 기준으로 제작되는 툴에서 사용하는 시간포멧
+// Now 합수는 디지털아이디어에서 사용하는 서비스의 현재 시간을 RFC3339 포멧으로 반환한다.
 func Now() string {
 	return time.Now().Format(time.RFC3339)
 }
 
-// Str2time함수는 RFC3339 시간문자열을 Time 자료구조로 바꾼다.
+// Str2time 함수는 RFC3339 시간문자열을 Time 자료구조로 바꾼다.
 func Str2time(str string) (time.Time, error) {
 	t, err := time.Parse(time.RFC3339, str)
 	if err != nil {
@@ -26,7 +26,7 @@ func Str2time(str string) (time.Time, error) {
 	return t, nil
 }
 
-// IsWorktime 함수는 현재 업무시간인지 체크하는 함수이다.
+// Worktime 함수는 현재 업무시간인지 체크하는 함수이다.
 func Worktime(t time.Time) bool {
 	// 토요일, 일요일이면 업무시간이 아니다.
 	if t.Weekday() == 0 || t.Weekday() == 6 {
@@ -46,7 +46,7 @@ func Worktime(t time.Time) bool {
 	}
 }
 
-// ToFullTime함수는 모드와 시간문자를 입력받아서 FullTime(RFC3339)으로 변환한다.
+// ToFullTime 함수는 모드와 시간문자를 입력받아서 FullTime(RFC3339)으로 변환한다.
 // 모드는 start, end, current 값을 설정할 수 있다. 각각 출근,퇴근,현재시간으로 FullTime값을 바꿀 수 있다.
 func ToFullTime(mode, t string) (string, error) {
 	if t == "" {
@@ -65,7 +65,7 @@ func ToFullTime(mode, t string) (string, error) {
 		sec = currentTime.Second()
 		nsec = currentTime.Nanosecond()
 	default:
-		return t, errors.New("mode에는 start,end,current를 입력할 수 있습니다.")
+		return t, errors.New("mode에는 start,end,current를 입력할 수 있습니다")
 	}
 	if regexpShortTime.MatchString(t) {
 		m, err := strconv.Atoi(t[0:2])
@@ -129,6 +129,6 @@ func ToFullTime(mode, t string) (string, error) {
 			return t, nil
 		}
 	} else {
-		return t, errors.New(`입력한 날짜형식이 "0113","1982-01-13","1982-01-13T10:38:37+09:00" 형태가 아닙니다.`)
+		return t, errors.New(`입력한 날짜형식이 "0113","1982-01-13","1982-01-13T10:38:37+09:00" 형태가 아닙니다`)
 	}
 }
