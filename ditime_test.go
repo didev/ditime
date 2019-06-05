@@ -1,4 +1,4 @@
-package ditime
+package ditime_test
 
 import (
 	"github.com/didev/ditime"
