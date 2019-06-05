@@ -1,7 +1,7 @@
 package ditime
 
 import (
-	"di/ditime"
+	"github.com/didev/ditime"
 	"fmt"
 	"testing"
 	"time"
