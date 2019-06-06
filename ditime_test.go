@@ -1,14 +1,16 @@
 package ditime_test
 
 import (
-	"github.com/didev/ditime"
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/didev/ditime"
 )
 
 func Test_ToFullTime(t *testing.T) {
-	y := time.Now().Year()
+	n := time.Now()
+	timeOffset := n.Format(time.RFC3339)[19:25]
 	cases := []struct {
 		in   string
 		mode string
@@ -17,22 +19,22 @@ func Test_ToFullTime(t *testing.T) {
 	}{{
 		in:   "0618",
 		mode: "start",
-		want: fmt.Sprintf("%04d-06-18T10:00:00+09:00", y),
+		want: fmt.Sprintf("%04d-06-18T10:00:00%s", n.Year(), timeOffset),
 		err:  nil,
 	}, {
 		in:   "0618",
 		mode: "end",
-		want: fmt.Sprintf("%04d-06-18T19:00:00+09:00", y),
+		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeOffset),
 		err:  nil,
 	}, {
 		in:   "06/18",
 		mode: "start",
-		want: fmt.Sprintf("%04d-06-18T10:00:00+09:00", y),
+		want: fmt.Sprintf("%04d-06-18T10:00:00%s", n.Year(), timeOffset),
 		err:  nil,
 	}, {
 		in:   "2018-06-18",
 		mode: "start",
-		want: "2018-06-18T10:00:00+09:00",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeOffset),
 		err:  nil,
 	}, {
 		in:   "2018-06-18T18:45:23+09:00",
@@ -42,12 +44,12 @@ func Test_ToFullTime(t *testing.T) {
 	}, {
 		in:   "2018-06-18T18:45:23+09:00",
 		mode: "start",
-		want: "2018-06-18T10:00:00+09:00",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeOffset),
 		err:  nil,
 	}, {
 		in:   "2018-06-18T18:45:23+09:00",
 		mode: "end",
-		want: "2018-06-18T19:00:00+09:00",
+		want: fmt.Sprintf("2018-06-18T19:00:00%s", timeOffset),
 		err:  nil,
 	}}
 	for _, c := range cases {
