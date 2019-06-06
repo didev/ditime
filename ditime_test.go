@@ -10,6 +10,7 @@ import (
 
 func Test_ToFullTime(t *testing.T) {
 	n := time.Now()
+	// travisCI 에서는 UTC형식인 "2018-06-18T19:00:00Z" 라고 RFC3339 형식의 시간이 표기된다.
 	timeOffset := n.Format(time.RFC3339)[19:len(n.Format(time.RFC3339))]
 	cases := []struct {
 		in   string
