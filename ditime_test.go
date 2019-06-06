@@ -10,7 +10,7 @@ import (
 
 func Test_ToFullTime(t *testing.T) {
 	n := time.Now()
-	timeOffset := n.Format(time.RFC3339)[19:25]
+	timeOffset := n.Format(time.RFC3339)[19:len(n.Format(time.RFC3339))]
 	cases := []struct {
 		in   string
 		mode string
