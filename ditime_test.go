@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/didev/ditime"
+	"github.com/digital-idea/ditime"
 )
 
 func Test_ToFullTime(t *testing.T) {
