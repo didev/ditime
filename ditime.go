@@ -8,7 +8,7 @@ import (
 )
 
 var regexpShortTime = regexp.MustCompile(`^\d{4}$`)                                                                            // 1019
-var regexpExcelTime = regexp.MustCompile(`^\d{2}/\d{2}$`)                                                                      // 1019
+var regexpExcelTime = regexp.MustCompile(`^\d{2}/\d{2}$`)                                                                      // 10/19
 var regexpNormalTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$`)                                // 2016-10-19
 var regexpFullTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
 
