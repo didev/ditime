@@ -153,7 +153,7 @@ func ToFullTime(mode, t string) (string, error) {
 		t := time.Date(y, time.Month(m), d, hour, min, sec, nsec, time.Local)
 		return t.Format(time.RFC3339), nil
 	} else if RegexpMMDD.MatchString(t) {
-		re, err := regexp.Compile(`^(\d+)[.,-/]\s?(\d+)[.,]*$`)
+		re, err := regexp.Compile(`(\d+)[.,-/]\s?(\d+)`)
 		if err != nil {
 			return t, err
 		}

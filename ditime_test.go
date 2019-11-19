@@ -33,9 +33,9 @@ func TestToFullTime(t *testing.T) {
 		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeZone),
 		err:  nil,
 	}, {
-		in:   "06.19.",
+		in:   "06.19",
 		mode: "end",
-		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeZone),
+		want: fmt.Sprintf("%04d-06-19T19:00:00%s", n.Year(), timeZone),
 		err:  nil,
 	}, {
 		in:   "06/18",
@@ -66,7 +66,7 @@ func TestToFullTime(t *testing.T) {
 	for _, c := range cases {
 		result, err := ditime.ToFullTime(c.mode, c.in)
 		if result != c.want {
-			t.Fatalf("Test_ToFullTime(%v,%v): 얻은 값 %v, 원하는 값 %v, 에러 %v", c.mode, c.in, result, c.want, err)
+			t.Fatalf("TestToFullTime(%v,%v): 얻은 값 %v, 원하는 값 %v, 에러 %v", c.mode, c.in, result, c.want, err)
 		}
 	}
 }
@@ -141,7 +141,7 @@ func TestRegexMMDD(t *testing.T) {
 		time: "1/1",
 		want: true,
 	}, {
-		time: "11.19.",
+		time: "06.19.",
 		want: true,
 	}, {
 		time: "11,19",
