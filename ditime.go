@@ -82,17 +82,6 @@ func ToFullTime(mode, t string) (string, error) {
 		}
 		t := time.Date(time.Now().Year(), time.Month(m), d, hour, min, sec, nsec, time.Local)
 		return t.Format(time.RFC3339), nil
-	} else if RegexpMMDD.MatchString(t) {
-		m, err := strconv.Atoi(t[0:2])
-		if err != nil {
-			return t, err
-		}
-		d, err := strconv.Atoi(t[3:])
-		if err != nil {
-			return t, err
-		}
-		t := time.Date(time.Now().Year(), time.Month(m), d, hour, min, sec, nsec, time.Local)
-		return t.Format(time.RFC3339), nil
 	} else if regexpNormalTime.MatchString(t) {
 		y, err := strconv.Atoi(t[0:4])
 		if err != nil {

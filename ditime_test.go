@@ -33,7 +33,7 @@ func TestToFullTime(t *testing.T) {
 		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeZone),
 		err:  nil,
 	}, {
-		in:   "06.19",
+		in:   "06.19.",
 		mode: "end",
 		want: fmt.Sprintf("%04d-06-19T19:00:00%s", n.Year(), timeZone),
 		err:  nil,
