@@ -43,6 +43,26 @@ func TestToFullTime(t *testing.T) {
 		want: fmt.Sprintf("%04d-06-18T10:00:00%s", n.Year(), timeZone),
 		err:  nil,
 	}, {
+		in:   "01-13",
+		mode: "start",
+		want: fmt.Sprintf("%04d-01-13T10:00:00%s", n.Year(), timeZone),
+		err:  nil,
+	}, {
+		in:   "01.13",
+		mode: "start",
+		want: fmt.Sprintf("%04d-01-13T10:00:00%s", n.Year(), timeZone),
+		err:  nil,
+	}, {
+		in:   "1-1",
+		mode: "start",
+		want: fmt.Sprintf("%04d-01-01T10:00:00%s", n.Year(), timeZone),
+		err:  nil,
+	}, {
+		in:   "1.1",
+		mode: "start",
+		want: fmt.Sprintf("%04d-01-01T10:00:00%s", n.Year(), timeZone),
+		err:  nil,
+	}, {
 		in:   "2018-06-18",
 		mode: "start",
 		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
