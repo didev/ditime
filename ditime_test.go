@@ -1,6 +1,7 @@
 package ditime_test
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -27,6 +28,26 @@ func TestToFullTime(t *testing.T) {
 		mode: "end",
 		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeZone),
 		err:  nil,
+	}, {
+		in:   "618",
+		mode: "end",
+		want: fmt.Sprintf("%04d-06-18T19:00:00%s", n.Year(), timeZone),
+		err:  nil,
+	}, {
+		in:   "632",
+		mode: "end",
+		want: "632",
+		err:  errors.New(`입력한 날짜형식이 "0113","1982-01-13","1982-01-13T10:38:37+09:00" 형태가 아닙니다`),
+	}, {
+		in:   "43788", // Excel 날짜
+		mode: "start",
+		want: fmt.Sprintf("2019-11-19T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "0632",
+		mode: "end",
+		want: "0632",
+		err:  errors.New(`입력한 날짜형식이 "0113","1982-01-13","1982-01-13T10:38:37+09:00" 형태가 아닙니다`),
 	}, {
 		in:   "06.18",
 		mode: "end",
@@ -64,6 +85,36 @@ func TestToFullTime(t *testing.T) {
 		err:  nil,
 	}, {
 		in:   "2018-06-18",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "06-18-2018",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "06. 18. 2018.",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "2018년 6월 18일",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "2018년 6월 18일 ",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "2018年 6月 18日",
+		mode: "start",
+		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
+		err:  nil,
+	}, {
+		in:   "06. 18. 2018. ",
 		mode: "start",
 		want: fmt.Sprintf("2018-06-18T10:00:00%s", timeZone),
 		err:  nil,
@@ -134,6 +185,12 @@ func TestRegexYYYYMMDD(t *testing.T) {
 	}, {
 		time: "2019. 1. 1",
 		want: true,
+	}, {
+		time: "2019년1월1일",
+		want: true,
+	}, {
+		time: "2019년 1월 1일",
+		want: true,
 	},
 	}
 	for _, c := range cases {
@@ -153,6 +210,12 @@ func TestRegexMMDD(t *testing.T) {
 		want: true,
 	}, {
 		time: "11/19",
+		want: true,
+	}, {
+		time: "11월19일",
+		want: true,
+	}, {
+		time: "11月19日",
 		want: true,
 	}, {
 		time: "1/13",
