@@ -8,7 +8,18 @@
 ### Use in go
 
 ```go
-import "github.com/digital-idea/ditime"
+package main
+
+import (
+    "fmt"
+    "github.com/digital-idea/ditime"
+)
+
+func main() {
+    d := "2019年1月1日"
+    t, _ := ditime.ToFullTime(19, d)
+    fmt.Println(t)
+}
 ```
 
 ### License: BSD 3-Clause License
