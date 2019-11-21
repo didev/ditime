@@ -12,7 +12,7 @@ var regexpNormalTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12]
 var regexpFullTime = regexp.MustCompile(`^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$`) // 2016-10-19T16:41:24+09:00
 
 // RegexpExcelDaynum 레귤러 익스프레션은 1899-12-31 부터 지난날수에 대한 레귤러 익스프레션이다.
-var RegexpExcelDaynum = regexp.MustCompile(`^\d{5}`)
+var RegexpExcelDaynum = regexp.MustCompile(`^\d{5}$`)
 
 // RegexpMMDD 레귤러 익스프레션은 MM*DD 패턴의 날짜를 처리한다.
 var RegexpMMDD = regexp.MustCompile(`^(0?[1-9]|1[012])\D\s?(0?[1-9]|[12][0-9]|3[01])\D?\s?$`) // 10/19, 10-19, 10.10. 1.1 1.1. "1. 1."
