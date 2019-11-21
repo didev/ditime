@@ -17,8 +17,9 @@ import (
 
 func main() {
     d := "2019年1月1日"
-    t, _ := ditime.ToFullTime(19, d)
+    t, _ := ditime.ToFullTime(10, d)
     fmt.Println(t)
+    // 2019-01-01T10:00:00+09:00
 }
 ```
 
