@@ -121,7 +121,7 @@ func TestToFullTime(t *testing.T) {
 	}, {
 		in:      "2018-06-18T18:45:23+09:00",
 		hourNum: 12,
-		want:    "2018-06-18T12:00:00+09:00",
+		want:    fmt.Sprintf("2018-06-18T12:00:00%s", timeZone),
 		err:     nil,
 	}, {
 		in:      "2018-06-18T18:45:23+09:00",
