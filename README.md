@@ -16,9 +16,12 @@ import (
 )
 
 func main() {
-    d := "2019年1月1日"
-    t, _ := ditime.ToFullTime(10, d)
-    fmt.Println(t)
+    case1 := "2019年1月1日"
+    case2 := "2019. 1. 1"
+    result1, _ := ditime.ToFullTime(10, case1)
+    fmt.Println(result1)
+    fmt.Println(result2)
+    // 2019-01-01T10:00:00+09:00
     // 2019-01-01T10:00:00+09:00
 }
 ```
