@@ -22,6 +22,8 @@ var RegexpMDD = regexp.MustCompile(`^([1-9])(0?[1-9]|[12][0-9]|3[01])$`) // 101,
 var RegexpYYYYMMDD = regexp.MustCompile(`^\d{4}\D\s?(0?[1-9]|1[012])\D\s?(0?[1-9]|[12][0-9]|3[01])\D?\s?$`) // 2016-10-19, 2016/10/19, 2016.10.19, 2016.10.19. 2016. 10. 10.
 // RegexpMMDDYYYY 레귤러 익스프레션은 MM*DD*YYYY 패턴의 날짜를 처리한다.
 var RegexpMMDDYYYY = regexp.MustCompile(`^(0?[1-9]|1[012])\D\s?(0?[1-9]|[12][0-9]|3[01])\D\s?\d{4}\D?\s?$`) // 10-19-2016, 10/19/2016, 10.19.2016, 10. 19. 2016.
+// RegexpSix 레귤러 익스프레션은 YY*MM*DD* 패턴의 날짜를 처리한다.
+var RegexpSix = regexp.MustCompile(`^\d{2}\D\s?(0[1-9]|[12][0-9]|3[01])\D\s?\d{2}\D?\s?$`) // 16-10-19, 16/10/19, 16.10.19, 16.10.19. 16. 10. 10.
 
 // Now 함수는 디지털아이디어에서 사용하는 서비스의 현재 시간을 RFC3339 포멧으로 반환한다.
 func Now() string {
@@ -161,6 +163,36 @@ func ToFullTime(hourNum int, t string) (string, error) {
 		}
 		s := time.Date(1899, time.December, 30, hour, min, sec, nsec, time.Local)
 		return s.AddDate(0, 0, num).Format(time.RFC3339), nil
+	} else if RegexpSix.MatchString(t) {
+		re, err := regexp.Compile(`^(\d+)\D\s?(\d+)\D\s?(\d+)\D*`)
+		if err != nil {
+			return t, err
+		}
+		result := re.FindStringSubmatch(t)
+		head, err := strconv.Atoi(result[1])
+		if err != nil {
+			return t, err
+		}
+		body, err := strconv.Atoi(result[2])
+		if err != nil {
+			return t, err
+		}
+		tail, err := strconv.Atoi(result[3])
+		if err != nil {
+			return t, err
+		}
+		var y, m, d int
+		if head > 18 {
+			y = 2000 + head
+			m = body
+			d = tail
+		} else {
+			m = head
+			d = body
+			y = 2000 + tail
+		}
+		t := time.Date(y, time.Month(m), d, hour, min, sec, nsec, time.Local)
+		return t.Format(time.RFC3339), nil
 	} else {
 		return t, errors.New(`입력한 날짜형식이 "0113","1982-01-13","1982-01-13T10:38:37+09:00" 형태가 아닙니다`)
 	}
